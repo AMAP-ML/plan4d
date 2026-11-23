@@ -17,7 +17,7 @@
 
 <p align="center">
   <a href="https://fogradio.github.io/plan4d-project/"><b>Project Page</b></a> &middot;
-  <b>Paper (coming soon)</b> &middot;
+  <a href="https://arxiv.org/abs/2611.26516"><b>Paper</b></a> &middot;
   <a href="https://huggingface.co/GD-ML/plan4d/tree/main"><b>Models</b></a>
 </p>
 
