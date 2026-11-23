@@ -16,9 +16,9 @@
 </p>
 
 <p align="center">
-  <b>Project Page (coming soon)</b> &middot;
+  <a href="https://fogradio.github.io/plan4d-project/"><b>Project Page</b></a> &middot;
   <b>Paper (coming soon)</b> &middot;
-  <a href="#weights"><b>Models</b></a>
+  <a href="https://huggingface.co/GD-ML/plan4d/tree/main"><b>Models</b></a>
 </p>
 
 **Plan4D turns an observed scene and a text-specified action into a future video
@@ -93,7 +93,8 @@ clip length, trainable parameters, and the selected distributed strategy.
 
 ### Plan4D Checkpoints
 
-The planned Hugging Face release contains **two files**. Place them under
+Download the **two checkpoint files** from
+[Hugging Face](https://huggingface.co/GD-ML/plan4d/tree/main). Place them under
 `checkpoints/plan4d/` without renaming them:
 
 ```text
@@ -108,8 +109,7 @@ checkpoints/plan4d/
 | `VDM_LoRA.safetensors` | Rank-32 LoRA weights for the LongCat video DiT | Joint-model and complete-pipeline inference |
 
 The files are inference/fine-tuning weights, not
-optimizer-state checkpoints for exact training resumption. The Hugging Face
-repository link will be added when the release is public; no download script
+optimizer-state checkpoints for exact training resumption. No download script
 is required.
 
 ### Upstream Weights
@@ -416,8 +416,7 @@ DPG-Bench protocol.
 
 ## Citation
 
-Bibliographic metadata below follows the supplied project page. No external
-publication or download link is asserted by this repository.
+Please use the following citation for Plan4D:
 
 ```bibtex
 @inproceedings{zhang2026plan4d,
