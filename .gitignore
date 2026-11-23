@@ -1,0 +1,12 @@
+# Generation-quality evaluation scripts derived from VIST3A (no upstream
+# license); kept locally for internal use, excluded from distribution.
+evaluation/gen_eval/
+
+# Runtime outputs
+outputs/
+checkpoints/
+datasets/
+manifests/
+gradio_workspace/
+__pycache__/
+*.pyc

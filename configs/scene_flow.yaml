@@ -1,0 +1,89 @@
+seed: 42
+model:
+  weights_dir: ../checkpoints/da3
+  checkpoint_name: model.safetensors
+  config_name: config.json
+  scene_flow_preset: da3-giant-sceneflow
+  decoder_chunk_size: 81
+  init_scene_flow_head_ckpt: null
+data:
+  chunk_size: 81
+  overlap: 1
+  process_res: 504
+  process_res_method: upper_bound_resize
+  target_height: 504
+  target_width: 504
+  batch_size: 1
+  num_workers: 4
+  pin_memory: true
+  flow_target_space: relative
+  relative_scale_source: geometry_radius
+  geometry_scale_stat: mean_radius
+  flow_scale_stat: p95
+  flow_scale_eps: 1.0e-6
+  flow_target_amplification: 1.0
+  mixture_alpha: 0.5
+  datasets:
+    - name: point_odyssey
+      data_root: ../datasets/point_odyssey/dataset
+      train_splits: [train]
+      val_splits: [val]
+      train_manifest: ../manifests/scene_flow/point_odyssey_train.jsonl
+      val_manifest: ../manifests/scene_flow/point_odyssey_val.jsonl
+      enabled_for_train: true
+      enabled_for_val: true
+    - name: blinkvision
+      data_root: ../datasets/BlinkVision_train_extracted
+      train_splits: [indoor_train, outdoor_train]
+      train_manifest: ../manifests/scene_flow/blinkvision_train.jsonl
+      rgb_dir: clean_uint8
+      max_depth_m: 30.0
+      enabled_for_train: true
+      enabled_for_val: false
+    - name: virtual_kitti2
+      data_root: ../datasets/Virtual_KITTI2
+      train_manifest: ../manifests/scene_flow/virtual_kitti2_train.jsonl
+      cameras: [Camera_0, Camera_1]
+      enabled_for_train: true
+      enabled_for_val: false
+    - name: omniworld
+      data_root: ../datasets/OmniWorld/OmniWorld-Game-extracted
+      train_splits: []
+      train_manifest: ../manifests/scene_flow/omniworld_train.jsonl
+      pose_source: camera
+      enabled_for_train: true
+      enabled_for_val: false
+    - name: dynamic_replica
+      data_root: ../datasets/dynamic_stereo/dynamic_replica_data
+      train_splits: [train]
+      train_manifest: ../manifests/scene_flow/dynamic_replica_train.jsonl
+      enabled_for_train: true
+      enabled_for_val: false
+    - name: movi_f
+      builder_dir: ../datasets/MOVi-F
+      train_splits: [train]
+      train_manifest: ../manifests/scene_flow/movi_f_train.jsonl
+      enabled_for_train: true
+      enabled_for_val: false
+optimizer:
+  learning_rate: 1.0e-5
+  weight_decay: 1.0e-2
+  betas: [0.9, 0.999]
+  warmup_steps: 100
+  min_lr_scale: 0.1
+  max_grad_norm: 1.0
+loss:
+  loss_type: l1
+  zero_last_weight: 0.1
+  depth_warp_weight: 1.0
+  depth_warp_loss_type: l1
+  depth_warp_space: relative
+training:
+  num_epochs: 20
+  max_steps: null
+  gradient_accumulation_steps: 1
+  mixed_precision: bf16
+  log_every_n_steps: 1
+  eval_every_n_epochs: 1
+  save_every_n_steps: 100
+  output_dir: ../outputs/scene_flow

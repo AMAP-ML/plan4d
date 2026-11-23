@@ -1,0 +1,7 @@
+deepspeed
+tensorflow
+tensorflow-datasets
+open3d
+pycolmap
+xformers
+gsplat==1.4.0

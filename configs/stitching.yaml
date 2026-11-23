@@ -1,0 +1,55 @@
+data:
+  manifest_data_root: datasets
+  datasets:
+    - name: point_odyssey
+      data_root: point_odyssey/dataset
+      train_splits: [train]
+    - name: blinkvision
+      data_root: BlinkVision_train_extracted
+      train_splits: [indoor_train, outdoor_train]
+      rgb_dir: clean_uint8
+    - name: mvs_synth
+      data_root: MVS-Synth/GTAV_540
+    - name: omniworld
+      data_root: OmniWorld/OmniWorld-Game-extracted
+      train_splits: []
+      pose_source: camera
+    - name: virtual_kitti2
+      data_root: Virtual_KITTI2
+args:
+  use_accelerate: true
+  mixed_precision: bf16
+  feedforward_model: da3
+  video_model: wan
+  da3_enable_scene_flow_head: true
+  da3_model_path: checkpoints/da3
+  da3_scene_flow_head_checkpoint_path: checkpoints/scene_flow_head.bin
+  wan_vae_path: checkpoints/longcat/vae
+  training_stage: hybrid
+  train_manifest:
+    - point_odyssey:manifests/stitching/point_odyssey_train.jsonl
+    - blinkvision:manifests/stitching/blinkvision_indoor_train.jsonl
+    - blinkvision:manifests/stitching/blinkvision_outdoor_train.jsonl
+    - mvs_synth:manifests/stitching/mvs_synth_train.jsonl
+    - omniworld:manifests/stitching/omniworld_train.jsonl
+    - virtual_kitti2:manifests/stitching/virtual_kitti2_train.jsonl
+  manifest_data_root: datasets
+  stitching_layer_location: enc_blocks_1
+  initialization_weight_path: null
+  init_stitched_model_path: null
+  lora_config: r32,a16,d0.05,f0
+  resolution: 504
+  feedforward_resolution: 504
+  da3_process_res_method: upper_bound_resize
+  batch_size: 1
+  num_workers: 4
+  num_epochs: 25
+  learning_rate: 1.0e-4
+  weight_decay: 1.0e-4
+  warmup_steps: 50
+  gradient_accumulation_steps: 1
+  distill_loss_weight_scene_flow: 1.0
+  geo_loss_weight_scene_flow: 1.0
+  save_every_n_steps: 100
+  log_every_n_steps: 1
+  save_path: outputs/stitching
